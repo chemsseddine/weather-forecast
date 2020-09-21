@@ -5,7 +5,7 @@ import 'weathericons/css/weather-icons.min.css';
 
 import App from './components/App';
 import configureStore from './store';
-import 'index.css';
+import './index.css';
 
 
 const store = configureStore();

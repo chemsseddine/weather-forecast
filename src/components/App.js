@@ -18,6 +18,10 @@ const Wrapper = styled.div`
   text-align: center;
 `
 
+const Container = styled.div`
+  padding: 3em;
+`;
+
 function App() {
   const city = useSelector(state => state.forecast.city);
   const isLoading = useSelector(state => state.forecast.loading);
@@ -30,9 +34,9 @@ function App() {
   }, [dispatch])
 
   if (isLoading && !loaded) return <Spinner />
-  if (error) return <div>error ...</div>
+  if (error) return <div>error</div>
   return (
-    <div>
+    <Container>
       <TemperatureSwitcher />
       <Wrapper>
         <Prev />
@@ -46,7 +50,7 @@ function App() {
       </Wrapper>
       <WeatherCarousel />
       <WeatherBarChart />
-    </div>
+    </Container>
   );
 }
 

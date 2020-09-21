@@ -19,7 +19,6 @@ import {
 
 export default function WeatherCard(props) {
 
-    const mainTemperature = Math.round(props.main.temp);
     const mainPressure = Math.round(props.main.pressure);
     const forecastDate = new Date(props.dt * 1000).toDateString();
 
@@ -32,7 +31,7 @@ export default function WeatherCard(props) {
                 </DateRow>
                 <Weather>
                     <Temperature>
-                        {mainTemperature}° {props.isFahrenheit ? 'F' : 'C'}
+                        {props.calculatedTemperature}° {props.isFahrenheit ? 'F' : 'C'}
                     </Temperature>
                     <i className={`wi wi-owm-day-${props.weather[0].id}`} />
                     <Daily>

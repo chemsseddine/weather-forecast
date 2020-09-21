@@ -15,7 +15,7 @@ export default function WeatherBarChart() {
                     label={{ value: 'Temperature', angle: -90, position: 'insideLeft' }}
                 />
                 <Tooltip />
-                <Bar dataKey="main.temp" fill="#82ca9d" barSize={40} />
+                <Bar dataKey="calculatedTemperature" fill="#82ca9d" barSize={40} />
             </BarChart>
         </ResponsiveContainer>
     );

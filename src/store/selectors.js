@@ -1,12 +1,11 @@
 import { createSelector } from 'reselect';
 
-import { PAGE_SIZE, TEMPERATURE } from '../consts';
-import { initialForecastState } from './reducers';
-import { pick5Days } from '../utils/dateHelpers';
+import { PAGE_SIZE } from '../consts';
+import { fiveDaysForecast } from '../utils/dateHelpers';
 
-export const selectTempUnit = state => state.tempUnit || TEMPERATURE.FAHRENHEIT;
-export const selectForecastData = state => state.forecast.data || initialForecastState;
-export const selectCurrentIndex = state => state.pageIndex || 0;
+export const selectTempUnit = state => state.tempUnit;
+export const selectForecastData = state => state.forecast.data;
+export const selectCurrentIndex = state => state.pageIndex;
 
 
 export const selectForecastDataByTemp = createSelector(
@@ -17,7 +16,7 @@ export const selectForecastDataByTemp = createSelector(
 
 export const pick5DaysSelector = createSelector(
     selectForecastDataByTemp,
-    forecastData => pick5Days(forecastData),
+    forecastData => fiveDaysForecast(forecastData),
 );
 
 export const isNextEnabledSelector = createSelector(
