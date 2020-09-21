@@ -3,69 +3,39 @@ import { validationSchema } from './schemas';
 import { TEMPERATURE, createApiUrl } from '../consts';
 import request from '../utils/request';
 
-export function loadForecast(place) {
-    return {
-        type: types.LOAD_FORECAST,
-        city: place ? place.value : null,
-    };
-}
+export const loadForecast = ({ value: city } = {}) => ({ type: types.LOAD_FORECAST, city });
 
-export function forecastLoaded(data) {
-    return {
-        type: types.FORECAST_LOADED,
-        payload: data,
-    };
-}
+export const forecastLoaded = data => ({ type: types.FORECAST_LOADED, payload: data });
 
-export function forecastLoadingError(error) {
-    console.log(error);
-    return {
-        type: types.LOAD_FORECAST_ERROR,
-        error,
-    };
-}
+export const forecastLoadingError = error => ({ type: types.LOAD_FORECAST_ERROR, error })
 
-export function switchTempUnit(unit) {
-    return {
-        type: types.SWITCH_UNIT,
-        payload: unit,
-    };
-}
+export const switchTempUnit = unit => ({ type: types.SWITCH_UNIT, payload: unit })
+
+export const getNextChunk = () => ({ type: types.NEXT });
+
+export const getPreviousChunk = () => ({ type: types.PREVIOUS });
 
 async function _fetchForecastData(place) {
-    const [fahrenheit, celsius] = await Promise.all([
+    const [{ list: fahrenheit }, { list: celsius }] = await Promise.all([
         request(createApiUrl(TEMPERATURE.FAHRENHEIT, place), validationSchema),
-        request(createApiUrl(TEMPERATURE.CELSIUS, place), validationSchema),
-    ])
+        request(createApiUrl(TEMPERATURE.CELSIUS, place), validationSchema)
+    ]);
     return {
-        [TEMPERATURE.FAHRENHEIT]: fahrenheit.list,
-        [TEMPERATURE.CELSIUS]: celsius.list,
+        [TEMPERATURE.FAHRENHEIT]: fahrenheit,
+        [TEMPERATURE.CELSIUS]: celsius,
     };
 }
 
-export const getNextChunk = (nextEnabled) => {
-    return dispatch => {
-        if (nextEnabled) {
-            dispatch({ type: types.NEXT });
-        }
-    };
-};
-
-export const getPreviousChunk = (pageIndex) => {
-    return dispatch => {
-        if (pageIndex > 0) {
-            dispatch({ type: types.PREVIOUS });
-        }
-    };
-};
 
 export const fetchForecastData = place => {
-    return dispatch => {
+    return async (dispatch) => {
         dispatch(loadForecast(place));
-        _fetchForecastData(place)
-            .then(response => {
-                dispatch(forecastLoaded(response));
-            })
-            .catch(error => dispatch(forecastLoadingError(error)));
+        try {
+            const data = await _fetchForecastData(place)
+            dispatch(forecastLoaded(data))
+        } catch (error) {
+            console.log(error);
+            dispatch(forecastLoadingError(error));
+        }
     };
 };

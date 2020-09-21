@@ -9,7 +9,7 @@ import { isNextEnabledSelector } from '../store/selectors';
 function Next() {
     const dispatch = useDispatch();
     const isNextEnabled = useSelector(isNextEnabledSelector)
-    const handleNextClick = () => dispatch(getNextChunk(isNextEnabled))
+    const handleNextClick = () => dispatch(getNextChunk())
     return (
         <IconButton
             style={{ opacity: +isNextEnabled }}

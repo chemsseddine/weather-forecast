@@ -4,6 +4,17 @@ import { produce } from 'immer';
 import { DEFAULT_LOCATION, TEMPERATURE } from '../consts';
 import types from './types';
 
+export const initialForecastState = () => ({
+    data: {
+        [TEMPERATURE.CELSIUS]: [],
+        [TEMPERATURE.FAHRENHEIT]: [],
+    },
+    loading: false,
+    error: false,
+    loaded: false,
+    city: DEFAULT_LOCATION,
+});
+
 function tempUnitReducer(state = TEMPERATURE.FAHRENHEIT, action) {
     switch (action.type) {
         case types.SWITCH_UNIT:
@@ -23,17 +34,6 @@ function pageIndexReducer(state = 0, action) {
             return state;
     }
 }
-
-export const initialForecastState = () => ({
-    data: {
-        [TEMPERATURE.CELSIUS]: [],
-        [TEMPERATURE.FAHRENHEIT]: [],
-    },
-    loading: false,
-    error: false,
-    loaded: false,
-    city: DEFAULT_LOCATION,
-});
 
 function forecastReducer(state = initialForecastState(), action) {
     switch (action.type) {

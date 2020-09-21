@@ -8,7 +8,7 @@ import { getPreviousChunk } from '../store/actions';
 function Prev() {
     const dispatch = useDispatch();
     const pageIndex = useSelector(state => state.pageIndex)
-    const handlePrevClick = () => dispatch(getPreviousChunk(pageIndex))
+    const handlePrevClick = () => dispatch(getPreviousChunk())
     return (
         <IconButton
             style={{ opacity: +!!pageIndex }}
