@@ -29,6 +29,7 @@ function App() {
   const error = useSelector(state => state.forecast.error)
   const dispatch = useDispatch()
 
+
   useEffect(() => {
     dispatch(fetchForecastData())
   }, [dispatch])

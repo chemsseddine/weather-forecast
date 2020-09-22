@@ -35,7 +35,7 @@ export const fetchForecastData = place => {
             dispatch(forecastLoaded(data))
         } catch (error) {
             console.log(error);
-            dispatch(forecastLoadingError(error));
+            dispatch(forecastLoadingError(error.message));
         }
     };
 };
