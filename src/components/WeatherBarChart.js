@@ -7,7 +7,7 @@ import { pick5DaysSelector } from 'store/selectors';
 export default function WeatherBarChart() {
     const forecastData = useSelector(pick5DaysSelector)
     return (
-        <ResponsiveContainer idth={'99%'} height={300}>
+        <ResponsiveContainer width={'99%'} height={300}>
             <BarChart width={600} height={300} data={forecastData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="day" />
