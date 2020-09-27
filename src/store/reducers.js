@@ -13,6 +13,7 @@ export const initialForecastState = () => ({
     error: false,
     loaded: false,
     city: DEFAULT_LOCATION,
+    fetchingId: null
 });
 
 function tempUnitReducer(state = TEMPERATURE.FAHRENHEIT, action) {
@@ -40,13 +41,16 @@ function forecastReducer(state = initialForecastState(), action) {
         case types.LOAD_FORECAST:
             return produce(state, draft => {
                 draft.loading = true;
-                draft.city = action.city ? action.city : DEFAULT_LOCATION;
+                draft.fetchingId = action.fetchingId
             });
         case types.FORECAST_LOADED:
             return produce(state, draft => {
-                draft.data = action.payload;
-                draft.loading = false;
-                draft.loaded = true;
+                if (action.fetchingId === state.fetchingId) {
+                    draft.data = action.payload;
+                    draft.city = action.city ? action.city : DEFAULT_LOCATION;
+                    draft.loading = false;
+                    draft.loaded = true;
+                }
             });
         case types.LOAD_FORECAST_ERROR:
             return produce(state, draft => {
